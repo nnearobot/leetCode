@@ -276,13 +276,13 @@ class Solution {
         $testArr = range(1, 9);
 
         foreach ($this->board as $arr) {
-            if (array_diff($arr, $testArr)) {
+            if (count(array_unique($arr)) != count($testArr)) {
                 return false;
             }
         }
 
         for ($c = 0; $c <= self::LAST_KEY; $c++) {
-            if (array_diff(array_column($this->board, $c), $testArr)) {
+            if (count(array_unique(array_column($this->board, $c))) != count($testArr)) {
                 return false;
             }
         }
@@ -295,7 +295,7 @@ class Solution {
         }
         foreach ($threeXthree as $rowArr) {
             foreach ($rowArr as $arr) {
-                if (array_diff($arr, $testArr)) {
+                if (count(array_unique($arr)) != count($testArr)) {
                     return false;
                 }
             }
