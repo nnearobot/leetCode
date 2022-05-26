@@ -1,4 +1,10 @@
 <?php
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Rimma Maksiutova
+ */
+
 
 /**
  * This solution prints logs for checking purpose.
