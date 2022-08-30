@@ -18,31 +18,20 @@ func main() {
 }
 
 func rotate(matrix [][]int) {
-	var mem, x, n, i, j, levels, squares int
+	var i, j, tmp int
+	n := len(matrix)
 
-	n = len(matrix)
-	levels = n / 2
-	squares = n - 1
-
-	for lvl := 0; lvl < levels; lvl++ {
+	for lvl := 0; lvl < n/2; lvl++ {
 		i, j = lvl, lvl
 
-		for s := 1; s <= squares; s++ {
-			mem = matrix[i][j]
-			for r := 0; r < 3; r++ {
-				matrix[i][j] = matrix[n-1-j][i]
-				x = j
-				j = i
-				i = n - 1 - x
-			}
-			matrix[i][j] = mem
-
-			x = j
-			j = i + 1 // next cell inthis row
-			i = n - 1 - x
+		for s := 0; s < n-2*lvl-1; s++ {
+			tmp = matrix[i][j]
+			matrix[i][j] = matrix[n-1-j][i]
+			matrix[n-1-j][i] = matrix[n-1-i][n-1-j]
+			matrix[n-1-i][n-1-j] = matrix[j][n-1-i]
+			matrix[j][n-1-i] = tmp
+			j++
 		}
-
-		squares = squares - 2
 	}
 }
 
