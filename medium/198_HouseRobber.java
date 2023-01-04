@@ -10,6 +10,7 @@
  * 
  * 
  */
+import java.util.HashMap;
 
 class Solution {
     private HashMap<Integer, Integer> memo = new HashMap<Integer, Integer>();
