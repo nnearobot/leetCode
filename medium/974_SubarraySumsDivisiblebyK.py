@@ -9,6 +9,25 @@ class Solution:
     def subarraysDivByK(self, nums: List[int], k: int) -> int:
         prefixSumRemCount = {}
         summ = 0
+        res = 0
+        for i, n in enumerate(nums):
+            summ += n
+            rem = summ % k
+            if rem in prefixSumRemCount:
+                res += prefixSumRemCount[rem]
+            else:
+                prefixSumRemCount[rem] = 0
+            prefixSumRemCount[rem] += 1
+            if rem == 0:
+                res += 1
+
+        return res
+
+"""
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        prefixSumRemCount = {}
+        summ = 0
         for i, n in enumerate(nums):
             summ += n
             rem = summ % k
@@ -27,3 +46,4 @@ class Solution:
                 res = res + (count - 1) * count // 2
 
         return res
+"""
