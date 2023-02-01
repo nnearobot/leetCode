@@ -1,5 +1,5 @@
 # 1017. Convert to Base -2
-# Easy
+# Medium
 # https://leetcode.com/problems/convert-to-base-2/description/
 
 class Solution:
