@@ -1,3 +1,3 @@
-# leetCode problem solutions
+# My LeetCode solutions
 
-Only accepted solutions I implemented by myself.
+Only accepted solutions.
