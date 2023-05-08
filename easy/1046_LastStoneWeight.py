@@ -2,23 +2,19 @@
 # Easy
 # https://leetcode.com/problems/last-stone-weight/
 
-class Solution {
-    public int tribonacci(int n) {
-        if (n == 0) return 0;
-        if (n == 1 || n == 2) return 1;
+import heapq
+
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        stones = [-i for i in stones]
+        heapq.heapify(stones)
+        while True:
+            y = heapq.heappop(stones) if len(stones) > 0 else None
+            x = heapq.heappop(stones) if len(stones) > 0 else None
+            if not y or not x:
+                break
+            if x == y:
+                continue
+            heapq.heappush(stones, y - x)
         
-        int n0 = 0;
-        int n1 = 1;
-        int n2 = 1;
-        int res = 0;
-        
-        for (int i = 3; i <= n; i++) {
-            res = n0 + n1 + n2;
-            n0 = n1;
-            n1 = n2;
-            n2 = res;
-        }
-        
-        return res;
-    }
-}
+        return -y if y != None else 0
