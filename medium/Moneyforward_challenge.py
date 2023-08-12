@@ -1,50 +1,27 @@
 import random
+from collections import defaultdict
 
 def main(lines):
-    guests = []
-    initial_map = {}
+    pairs = 0
+
+    # let's make a map of guests by their SECOND initials
+    initial_map = defaultdict(dict)
     for i, v in enumerate(lines):
+        # first element in the input is a number of lines so skip it
         if i == 0:
             continue
-        guest = [int(num) for num in v.split(" ")]
-        guests.append(guest)
-        # map all the guests by their second initial:
-        if guest[1] not in initial_map:
-            initial_map[guest[1]] = {}
-        if guest[0] not in initial_map[guest[1]]:
-            initial_map[guest[1]][guest[0]] = []
-        initial_map[guest[1]][guest[0]].append(i - 1)
-    
-    # and not we can traverse all the guests and search their pair in the initial_map
-    # searching a map index that the same as the first initial of the current guest.
-    # we have to store already taken guests for not making duplicates
-    taken = []
-    res = 0
-    for guest_num, guest in enumerate(guests):
-        # if this guest already taken - skip
-        if guest_num in taken:
-            continue
-        # if no pair for this guest = continue
-        if guest[0] not in initial_map:
-            continue
-        if guest[1] not in initial_map[guest[0]]:
-            continue
-        # check all the pairs and take one that matches
-        for i, pair_num in enumerate(initial_map[guest[0]][guest[1]]):
-            # don't take the same quest:
-            if pair_num == guest_num:
-                continue
-            # if this guest already taken - skip
-            if pair_num in taken:
-                continue
 
-            res += 1
-            taken.append(guest_num)
-            taken.append(pair_num)
-            break
+        guest = v.split(" ")
 
-    print(res)
+        if guest[1] in initial_map and guest[0] in initial_map[guest[1]] and initial_map[guest[1]][guest[0]] > 0:
+            pairs += 1
+            initial_map[guest[1]][guest[0]] -= 1
+        elif guest[0] in initial_map and guest[1] in initial_map[guest[0]]:
+            initial_map[guest[0]][guest[1]] += 1
+        else:
+            initial_map[guest[0]][guest[1]] = 1
 
+    print(pairs)
 
 if __name__ == '__main__':
     n = 10
