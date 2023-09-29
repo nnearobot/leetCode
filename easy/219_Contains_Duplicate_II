@@ -1,0 +1,19 @@
+# 219. Contains Duplicate II
+# easy
+# https://leetcode.com/problems/contains-duplicate-ii/
+
+from collections import defaultdict
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        if len(nums) < 2:
+            return False
+
+        hashMap = defaultdict(list)
+        for i, num in enumerate(nums):
+            if num in hashMap:
+                for j in hashMap[num]:
+                    if abs(i - j) <= k:
+                        return True
+            hashMap[num].append(i)
+        return False
