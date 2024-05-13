@@ -12,7 +12,8 @@ class Solution:
             else:
                 for j in range(n):
                     toggled[i][j] = 1 - grid[i][j]
-        for j in range(n):
+
+        for j in range(1, n):
             ones = 0
             for i in range(m):
                 if toggled[i][j]:
