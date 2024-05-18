@@ -2,42 +2,38 @@
 # Medium
 # https://leetcode.com/problems/rotting-oranges
 
+from collections import deque
+
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        n = len(grid)
-        m = len(grid[0])
-        q = []
-        box = grid.copy()
-        rottens = []
-        for i in range(n):
-            for j in range(m):
-                if box[i][j] == 2:
-                    rottens.append([i, j])
-        q.append(rottens)
-        time = 0
-        while len(q) > 0:
-            rottens = q.pop(0)
-            newRottens = []
-            for pair in rottens:
-                i = pair[0]
-                j = pair[1]
-                if i > 0 and box[i - 1][j] == 1:
-                    box[i - 1][j] = 2
-                    newRottens.append([i - 1, j])
-                if j > 0 and box[i][j - 1] == 1:
-                    box[i][j - 1] = 2
-                    newRottens.append([i, j - 1])
-                if i < n - 1 and box[i + 1][j] == 1:
-                    box[i + 1][j] = 2
-                    newRottens.append([i + 1, j])
-                if j < m - 1 and box[i][j + 1] == 1:
-                    box[i][j + 1] = 2
-                    newRottens.append([i, j + 1])
-            if len(newRottens) > 0:
-                time += 1
-                q.append(newRottens)
-        for i in range(n):
-            for j in range(m):
-                if box[i][j] == 1:
-                    return -1
-        return time
+        m, n = len(grid), len(grid[0])
+        fresh = 0
+
+        queue = deque()
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 2:
+                    queue.append((row, col, 0))
+                elif grid[row][col] == 1:
+                    fresh += 1
+
+        DIRECTIONS = [1, 0, -1, 0, 1]
+        max_minutes = 0
+        seen = set()
+
+        while queue:
+            row, col, minutes = queue.popleft()
+            max_minutes = max(max_minutes, minutes)
+
+            for dir_num in range(4):
+                next_row = row + DIRECTIONS[dir_num]
+                next_col = col + DIRECTIONS[dir_num + 1]
+                if 0 <= next_row < m \
+                        and 0 <= next_col < n \
+                        and grid[next_row][next_col] == 1 \
+                        and (next_row, next_col) not in seen:
+                    seen.add((next_row, next_col))
+                    queue.append((next_row, next_col, minutes + 1))
+                    fresh -= 1
+
+        return max_minutes if fresh == 0 else -1
